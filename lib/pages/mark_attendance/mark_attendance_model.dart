@@ -1,39 +1,35 @@
 import '/backend/api_requests/api_calls.dart';
 import '/components/drawer/drawer_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/form_field_controller.dart';
+import '/index.dart';
 import 'mark_attendance_widget.dart' show MarkAttendanceWidget;
 import 'package:flutter/material.dart';
 
 class MarkAttendanceModel extends FlutterFlowModel<MarkAttendanceWidget> {
   ///  Local state fields for this page.
 
-  String address = 'Address';
+  dynamic wardsJSON;
 
-  dynamic empJson;
+  bool searchIsActive = false;
 
   ///  State fields for stateful widgets in this page.
 
-  // Stores action output result for [Backend Call - API (GeoLocation)] action in MarkAttendance widget.
-  ApiCallResponse? geoLocationFeatched;
-  // Stores action output result for [Backend Call - API (employeeAttendance)] action in MarkAttendance widget.
-  ApiCallResponse? employeeFetch;
-  // State field(s) for TabBar widget.
-  TabController? tabBarController;
-  int get tabBarCurrentIndex =>
-      tabBarController != null ? tabBarController!.index : 0;
-
-  bool isDataUploading1 = false;
-  FFUploadedFile uploadedLocalFile1 =
-      FFUploadedFile(bytes: Uint8List.fromList([]));
-
-  // Stores action output result for [Backend Call - API (punchInOut)] action in Button widget.
-  ApiCallResponse? punchIN;
-  bool isDataUploading2 = false;
-  FFUploadedFile uploadedLocalFile2 =
-      FFUploadedFile(bytes: Uint8List.fromList([]));
-
-  // Stores action output result for [Backend Call - API (punchInOut)] action in Button widget.
-  ApiCallResponse? punchOut;
+  // Stores action output result for [Backend Call - API (supervisorsWard)] action in MarkAttendance widget.
+  ApiCallResponse? supervisorWardsResponse;
+  // State field(s) for ChoiceChips widget.
+  FormFieldController<List<String>>? choiceChipsValueController;
+  String? get choiceChipsValue =>
+      choiceChipsValueController?.value?.firstOrNull;
+  set choiceChipsValue(String? val) =>
+      choiceChipsValueController?.value = val != null ? [val] : [];
+  // State field(s) for TextField widget.
+  final textFieldKey = GlobalKey();
+  FocusNode? textFieldFocusNode;
+  TextEditingController? textController;
+  String? textFieldSelectedOption;
+  String? Function(BuildContext, String?)? textControllerValidator;
+  List<String> simpleSearchResults = [];
   // Model for Drawer component.
   late DrawerModel drawerModel;
 
@@ -44,7 +40,8 @@ class MarkAttendanceModel extends FlutterFlowModel<MarkAttendanceWidget> {
 
   @override
   void dispose() {
-    tabBarController?.dispose();
+    textFieldFocusNode?.dispose();
+
     drawerModel.dispose();
   }
 }

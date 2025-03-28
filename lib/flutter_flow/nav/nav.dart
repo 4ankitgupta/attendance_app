@@ -88,10 +88,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               : AuthenticationWidget(),
         ),
         FFRoute(
-          name: MarkAttendanceWidget.routeName,
-          path: MarkAttendanceWidget.routePath,
+          name: MarkAttendanceInnerWidget.routeName,
+          path: MarkAttendanceInnerWidget.routePath,
           requireAuth: true,
-          builder: (context, params) => MarkAttendanceWidget(
+          builder: (context, params) => MarkAttendanceInnerWidget(
             emp: params.getParam(
               'emp',
               ParamType.int,
@@ -115,10 +115,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => ProfileWidget(),
         ),
         FFRoute(
-          name: EmployeeListWidget.routeName,
-          path: EmployeeListWidget.routePath,
+          name: MarkAttendanceWidget.routeName,
+          path: MarkAttendanceWidget.routePath,
           requireAuth: true,
-          builder: (context, params) => EmployeeListWidget(),
+          builder: (context, params) => MarkAttendanceWidget(),
         ),
         FFRoute(
           name: HomePageWidget.routeName,
@@ -130,6 +130,21 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: AuthenticationWidget.routeName,
           path: AuthenticationWidget.routePath,
           builder: (context, params) => AuthenticationWidget(),
+        ),
+        FFRoute(
+          name: EmployeeListWidget.routeName,
+          path: EmployeeListWidget.routePath,
+          builder: (context, params) => EmployeeListWidget(),
+        ),
+        FFRoute(
+          name: EmployeeWidget.routeName,
+          path: EmployeeWidget.routePath,
+          builder: (context, params) => EmployeeWidget(
+            empId: params.getParam(
+              'empId',
+              ParamType.int,
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

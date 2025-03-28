@@ -13,7 +13,7 @@ const _kPrivateApiFunctionName = 'ffPrivateApiCall';
 
 class TestGroup {
   static String getBaseUrl() =>
-      'https://f490-2405-201-300b-8910-c84a-4a9e-2ab4-3153.ngrok-free.app/api';
+      'https://d697-2405-201-300b-8910-39a4-6e0e-2588-922.ngrok-free.app/api';
   static Map<String, String> headers = {};
   static LoginCall loginCall = LoginCall();
   static LogoutCall logoutCall = LogoutCall();
@@ -23,6 +23,10 @@ class TestGroup {
       EmployeeAttendanceCall();
   static PunchInOutCall punchInOutCall = PunchInOutCall();
   static AttendanceRecordCall attendanceRecordCall = AttendanceRecordCall();
+  static EmployeeDetailCall employeeDetailCall = EmployeeDetailCall();
+  static FetchImgCall fetchImgCall = FetchImgCall();
+  static FaceAttendanceCall faceAttendanceCall = FaceAttendanceCall();
+  static StoreFaceCall storeFaceCall = StoreFaceCall();
 }
 
 class LoginCall {
@@ -155,6 +159,39 @@ class SupervisorsWardCall {
       alwaysAllowBody: false,
     );
   }
+
+  List<String>? empName(dynamic response) => (getJsonField(
+        response,
+        r'''$[:].employees[:].emp_name''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
+  List<int>? empId(dynamic response) => (getJsonField(
+        response,
+        r'''$[:].employees[:].emp_id''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<int>(x))
+          .withoutNulls
+          .toList();
+  List<String>? attendanceStatus(dynamic response) => (getJsonField(
+        response,
+        r'''$[:].employees[:].attendance_status''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
+  List? employee(dynamic response) => getJsonField(
+        response,
+        r'''$[:].employees[:]''',
+        true,
+      ) as List?;
 }
 
 class EmployeeAttendanceCall {
@@ -167,8 +204,7 @@ class EmployeeAttendanceCall {
 
     final ffApiRequestBody = '''
 {
-  "emp_id": ${empId},
-  "ward_id": ${wardId}
+  "emp_id": ${empId}
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'employeeAttendance',
@@ -267,6 +303,162 @@ class AttendanceRecordCall {
       headers: {},
       params: {},
       bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  List<String>? empName(dynamic response) => (getJsonField(
+        response,
+        r'''$[:].name''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
+}
+
+class EmployeeDetailCall {
+  Future<ApiCallResponse> call({
+    int? empId,
+    String? month = '',
+    String? year = '',
+  }) async {
+    final baseUrl = TestGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'employeeDetail',
+      apiUrl: '${baseUrl}/app/attendance/employee/detail',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {
+        'empId': empId,
+        'month': month,
+      },
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  int? empId(dynamic response) => castToType<int>(getJsonField(
+        response,
+        r'''$.empId''',
+      ));
+  String? name(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.name''',
+      ));
+  String? phone(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.phone''',
+      ));
+  String? ward(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.ward''',
+      ));
+  String? zone(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.zone''',
+      ));
+  String? city(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.city''',
+      ));
+  String? state(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.state''',
+      ));
+  String? totalAttendance(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.totalAttendance''',
+      ));
+}
+
+class FetchImgCall {
+  Future<ApiCallResponse> call({
+    int? attendanceId,
+    String? punchType = '',
+  }) async {
+    final baseUrl = TestGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'fetchImg',
+      apiUrl: '${baseUrl}/app/attendance/employee/image',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {
+        'attendance_id': attendanceId,
+        'punch_type': punchType,
+      },
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class FaceAttendanceCall {
+  Future<ApiCallResponse> call({
+    String? punchType = '',
+    String? latitude = '',
+    String? longitude = '',
+    String? address = '',
+    FFUploadedFile? image,
+  }) async {
+    final baseUrl = TestGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'faceAttendance',
+      apiUrl: '${baseUrl}/app/attendance/employee/face-attendance',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {
+        'punch_type': punchType,
+        'latitude': latitude,
+        'longitude': longitude,
+        'address': address,
+        'image': image,
+      },
+      bodyType: BodyType.MULTIPART,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class StoreFaceCall {
+  Future<ApiCallResponse> call({
+    int? userId,
+    FFUploadedFile? image,
+  }) async {
+    final baseUrl = TestGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'storeFace',
+      apiUrl: '${baseUrl}/app/attendance/employee/faceRoutes/store-face',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {
+        'userId': userId,
+        'image': image,
+      },
+      bodyType: BodyType.MULTIPART,
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,

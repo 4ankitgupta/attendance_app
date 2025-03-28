@@ -10,10 +10,28 @@ class HomePageModel extends FlutterFlowModel<HomePageWidget> {
 
   dynamic record;
 
+  LatLng? loc;
+
+  String? address;
+
   ///  State fields for stateful widgets in this page.
 
   // Stores action output result for [Backend Call - API (attendanceRecord)] action in HomePage widget.
   ApiCallResponse? bla;
+  // Stores action output result for [Backend Call - API (GeoLocation)] action in HomePage widget.
+  ApiCallResponse? geoLocationFeatched;
+  bool isDataUploading1 = false;
+  FFUploadedFile uploadedLocalFile1 =
+      FFUploadedFile(bytes: Uint8List.fromList([]));
+
+  // Stores action output result for [Backend Call - API (faceAttendance)] action in Button widget.
+  ApiCallResponse? faceAttenResponse;
+  bool isDataUploading2 = false;
+  FFUploadedFile uploadedLocalFile2 =
+      FFUploadedFile(bytes: Uint8List.fromList([]));
+
+  // Stores action output result for [Backend Call - API (faceAttendance)] action in Button widget.
+  ApiCallResponse? faceAttenResponseOut;
   // Model for Drawer component.
   late DrawerModel drawerModel;
 

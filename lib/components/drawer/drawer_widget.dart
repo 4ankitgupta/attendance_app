@@ -262,7 +262,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                           hoverColor: Colors.transparent,
                           highlightColor: Colors.transparent,
                           onTap: () async {
-                            context.pushNamed(EmployeeListWidget.routeName);
+                            context.pushNamed(MarkAttendanceWidget.routeName);
                           },
                           child: Row(
                             mainAxisSize: MainAxisSize.max,

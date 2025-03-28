@@ -53,3 +53,7 @@ Color attendanceStatusText(String status) {
     return Color(0xFFD4b39ef);
   }
 }
+
+LatLng latlogReturn() {
+  return LatLng(0.0, 0.0);
+}

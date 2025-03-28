@@ -1,4 +1,3 @@
-import '/backend/api_requests/api_calls.dart';
 import '/components/drawer/drawer_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
@@ -7,18 +6,15 @@ import 'employee_list_widget.dart' show EmployeeListWidget;
 import 'package:flutter/material.dart';
 
 class EmployeeListModel extends FlutterFlowModel<EmployeeListWidget> {
-  ///  Local state fields for this page.
-
-  dynamic wardsJSON;
-
   ///  State fields for stateful widgets in this page.
 
-  // Stores action output result for [Backend Call - API (supervisorsWard)] action in EmployeeList widget.
-  ApiCallResponse? supervisorWardsResponse;
   // State field(s) for TextField widget.
+  final textFieldKey = GlobalKey();
   FocusNode? textFieldFocusNode;
   TextEditingController? textController;
+  String? textFieldSelectedOption;
   String? Function(BuildContext, String?)? textControllerValidator;
+  List<String> simpleSearchResults = [];
   // State field(s) for ChoiceChips widget.
   FormFieldController<List<String>>? choiceChipsValueController;
   String? get choiceChipsValue =>
@@ -36,7 +32,6 @@ class EmployeeListModel extends FlutterFlowModel<EmployeeListWidget> {
   @override
   void dispose() {
     textFieldFocusNode?.dispose();
-    textController?.dispose();
 
     drawerModel.dispose();
   }

@@ -15,9 +15,12 @@ class AttendanceLogsModel extends FlutterFlowModel<AttendanceLogsWidget> {
   // Stores action output result for [Backend Call - API (attendanceRecord)] action in AttendanceLogs widget.
   ApiCallResponse? attendanceRecord;
   // State field(s) for TextField widget.
+  final textFieldKey = GlobalKey();
   FocusNode? textFieldFocusNode;
   TextEditingController? textController;
+  String? textFieldSelectedOption;
   String? Function(BuildContext, String?)? textControllerValidator;
+  List<String> simpleSearchResults = [];
   // State field(s) for ChoiceChips widget.
   FormFieldController<List<String>>? choiceChipsValueController;
   String? get choiceChipsValue =>
@@ -35,7 +38,6 @@ class AttendanceLogsModel extends FlutterFlowModel<AttendanceLogsWidget> {
   @override
   void dispose() {
     textFieldFocusNode?.dispose();
-    textController?.dispose();
 
     drawerModel.dispose();
   }
